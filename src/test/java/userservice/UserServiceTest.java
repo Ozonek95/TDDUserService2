@@ -28,7 +28,5 @@ public class UserServiceTest {
         userService.add("Name","Surname","Login");
         Assert.assertFalse(userService.getUsers().isEmpty());
 
-
-
     }
 }

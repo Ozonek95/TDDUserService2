@@ -1,16 +1,34 @@
 package userservice;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+
 
 public class UserServiceTest {
 
+    private UserService userService;
+
+    @Before
+
+
+    public void init(){
+         userService = new UserService();
+    }
+
     @Test
     public void testIfFindMethodReturnFalse() {
-        UserService userService = new UserService();
-        boolean result = userService.find("name");
+        Assert.assertFalse(userService.find("name"));
 
-        Assert.assertFalse(result);
+    }
+
+    @Test
+    public void testIfAddMethodAddsUsers() {
+
+        userService.add("Name","Surname","Login");
+        Assert.assertFalse(userService.getUsers().isEmpty());
+
+
 
     }
 }

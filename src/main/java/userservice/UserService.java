@@ -1,8 +1,6 @@
 package userservice;
 
-import javax.activation.MimeTypeParameterList;
 import java.util.ArrayList;
-import java.util.List;
 
 class UserService {
 
@@ -12,15 +10,30 @@ class UserService {
         users = new ArrayList<>();
     }
 
-    boolean find(String name) {
-        return false;
+    User find(String login) {
+        for (User user:users) {
+            if(user.getLogin().getLogin().equals(login)){
+                return user;
+            }
+        }
+        return null;
     }
 
-    void add(String name, String surname, String login) {
-        users.add(new User("name","surname","login"));
+    void add(String login, String name, String surname) {
+        User user = new User(new Login(login),new Name(name), new Surname(surname));
+        users.add(user);
     }
 
     ArrayList<User> getUsers() {
         return users;
+    }
+
+    public void update(String login, Name name) {
+
+        find(login).setName(name);
+    }
+
+    public void update(String login, Surname surname){
+        find(login).setSurname(surname);
     }
 }

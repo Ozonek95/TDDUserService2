@@ -18,7 +18,7 @@ public class UserServiceTest {
 
     @Test
     public void testIfFindMethodReturnFalse() {
-        Assert.assertFalse(userService.find("name"));
+        Assert.assertNull(userService.find("Login"));
 
     }
 
@@ -27,6 +27,17 @@ public class UserServiceTest {
 
         userService.add("Name","Surname","Login");
         Assert.assertFalse(userService.getUsers().isEmpty());
+
+    }
+
+    @Test
+    public void testIfUpdateMethodUpdatesUsers() {
+
+
+        userService.add("Login1","Name","Surname");
+        String surnameToUpload = "ActualSurname";
+        userService.update("Login1",new Surname(surnameToUpload));
+        Assert.assertEquals(userService.find("Login1").getSurname().getSurname(), surnameToUpload);
 
     }
 }

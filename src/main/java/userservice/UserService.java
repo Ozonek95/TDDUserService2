@@ -10,19 +10,19 @@ class UserService {
         users = new ArrayList<>();
     }
 
-    User find(String login) {
+    User find(String login) throws LoginException {
         for (User user:users) {
             if(user.getLogin().getLogin().equals(login)){
                 return user;
             }
         }
-        return null;
+        throw new LoginException("User cannot be found");
     }
 
-    void add(String login, String name, String surname) throws LoginAlreadyExistsException {
+    void add(String login, String name, String surname) throws LoginException {
         for (User user:users) {
             if(user.getLogin().getLogin().equals(login)){
-                throw new LoginAlreadyExistsException();
+                throw new LoginException("Login already exists");
             }
         }
         User user = new User(new Login(login),new Name(name), new Surname(surname));
@@ -33,12 +33,12 @@ class UserService {
         return users;
     }
 
-    public void update(String login, Name name) {
+    public void update(String login, Name name) throws LoginException {
 
         find(login).setName(name);
     }
 
-    void update(String login, Surname surname){
+    void update(String login, Surname surname) throws LoginException {
         find(login).setSurname(surname);
     }
 }

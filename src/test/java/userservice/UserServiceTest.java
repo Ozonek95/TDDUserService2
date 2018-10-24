@@ -16,14 +16,9 @@ public class UserServiceTest {
          userService = new UserService();
     }
 
-    @Test
-    public void testIfFindMethodReturnFalse() {
-        Assert.assertNull(userService.find("Login"));
-
-    }
 
     @Test
-    public void testIfAddMethodAddsUsers() throws LoginAlreadyExistsException {
+    public void testIfAddMethodAddsUsers() throws LoginException {
 
         userService.add("Name","Surname","Login");
         Assert.assertFalse(userService.getUsers().isEmpty());
@@ -31,7 +26,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testIfUpdateMethodUpdatesUserSurname() throws LoginAlreadyExistsException {
+    public void testIfUpdateMethodUpdatesUserSurname() throws LoginException {
 
 
         userService.add("Login1","Name","Surname");
@@ -42,7 +37,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testIfUpdateMethodUpdatesUserName() throws LoginAlreadyExistsException {
+    public void testIfUpdateMethodUpdatesUserName() throws LoginException {
 
 
         userService.add("Login1","Name","Surname");
@@ -52,11 +47,26 @@ public class UserServiceTest {
 
     }
 
-    @Test(expected = LoginAlreadyExistsException.class)
-    public void testIfAddMethodThrowsExceptionWhenUserWithLoginAlreadyExists() throws LoginAlreadyExistsException {
+    @Test
+    public void testIfAddMethodThrowsExceptionWhenUserWithLoginAlreadyExists() {
 
-        userService.add("Login1","Marek","Stachurski");
-        userService.add("Login1","Jacek","Stachurski");
+        try {
+            userService.add("Login1","Marek","Stachurski");
+            userService.add("Login1","Jacek","Stachurski");
+        } catch (LoginException e){
+            Assert.assertEquals("Login already exists",e.getMessage());
+        }
 
+
+    }
+
+    @Test
+    public void testIfFindMethodThrowsExceptionIfLoginIsNotFound() {
+
+        try {
+            userService.find("Non Exist Login");
+        } catch (LoginException e) {
+            Assert.assertEquals("User cannot be found",e.getMessage());
+        }
     }
 }

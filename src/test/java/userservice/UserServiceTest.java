@@ -3,6 +3,8 @@ package userservice;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
+import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
@@ -97,6 +99,8 @@ public class UserServiceTest {
     @Test
     public void checkIfValidatorMethodWorks() {
         LoginValidator loginValidator = Mockito.mock(LoginValidator.class);
+
+        BDDMockito.given(loginValidator.validate(ArgumentMatchers.anyString())).willReturn(true);
 
         Assert.assertTrue(loginValidator.validate("CorrectLogin"));
     }

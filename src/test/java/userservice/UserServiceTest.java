@@ -69,4 +69,13 @@ public class UserServiceTest {
             Assert.assertEquals("User cannot be found",e.getMessage());
         }
     }
+
+    @Test
+    public void testIfUpdateMethodThrowsExceptionIfUserIsNotFound() {
+        try {
+            userService.update("Not existing login",new Name("name"));
+        } catch (LoginException e) {
+            Assert.assertEquals("User cannot be found",e.getMessage());
+        }
+    }
 }

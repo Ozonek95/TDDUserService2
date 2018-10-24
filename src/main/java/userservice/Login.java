@@ -1,13 +1,13 @@
 package userservice;
 
-public class Login {
+class Login {
     private String login;
 
-    public Login(String login) {
+    Login(String login) {
         this.login = login;
     }
 
-    public String getLogin() {
+    String getLogin() {
         return login;
     }
 }

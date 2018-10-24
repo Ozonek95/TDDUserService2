@@ -6,7 +6,7 @@ class UserService {
 
     private ArrayList<User> users;
 
-    public UserService() {
+    UserService() {
         users = new ArrayList<>();
     }
 
@@ -33,7 +33,7 @@ class UserService {
         find(login).setName(name);
     }
 
-    public void update(String login, Surname surname){
+    void update(String login, Surname surname){
         find(login).setSurname(surname);
     }
 }

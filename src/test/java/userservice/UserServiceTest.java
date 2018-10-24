@@ -31,13 +31,32 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testIfUpdateMethodUpdatesUsers() {
+    public void testIfUpdateMethodUpdatesUserSurname() {
 
 
         userService.add("Login1","Name","Surname");
         String surnameToUpload = "ActualSurname";
         userService.update("Login1",new Surname(surnameToUpload));
         Assert.assertEquals(userService.find("Login1").getSurname().getSurname(), surnameToUpload);
+
+    }
+
+    @Test
+    public void testIfUpdateMethodUpdatesUserName() {
+
+
+        userService.add("Login1","Name","Surname");
+        String nameToUpload = "ActualName";
+        userService.update("Login1",new Name(nameToUpload));
+        Assert.assertEquals(userService.find("Login1").getName().getName(),nameToUpload);
+
+    }
+
+    @Test(expected = LoginAlreadyExistsException.class)
+    public void testIfAddMethodThrowsExceptionWhenUserWithLoginAlreadyExists() {
+
+        userService.add("Login1","Marek","Stachurski");
+        userService.add("Login1","Jacek","Stachurski");
 
     }
 }

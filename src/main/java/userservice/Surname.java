@@ -3,11 +3,11 @@ package userservice;
 public class Surname {
     private String surname;
 
-    public Surname(String surname) {
+    Surname(String surname) {
         this.surname = surname;
     }
 
-    public String getSurname() {
+    String getSurname() {
         return surname;
     }
 

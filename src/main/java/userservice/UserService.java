@@ -41,4 +41,7 @@ class UserService {
     void update(String login, Surname surname) throws LoginException {
         find(login).setSurname(surname);
     }
+
+    public void delete(String login) {
+    }
 }

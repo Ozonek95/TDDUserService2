@@ -78,4 +78,17 @@ public class UserServiceTest {
             Assert.assertEquals("User cannot be found",e.getMessage());
         }
     }
+
+    @Test
+    public void checkIfDeleteMethodDeletesUser() throws LoginException {
+        userService.add("Login1","Name","Surname");
+        userService.delete("Login1");
+        try {
+            userService.find("Login1");
+        }catch (LoginException e){
+            Assert.assertEquals("User cannot be found",e.getMessage());
+        }
+
+
+    }
 }

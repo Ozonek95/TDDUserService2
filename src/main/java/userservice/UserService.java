@@ -4,10 +4,15 @@ import java.util.ArrayList;
 
 class UserService {
 
+    private LoginValidator loginValidator;
+
     private ArrayList<User> users;
 
-    UserService() {
+
+    UserService(LoginValidator loginValidator) {
+
         users = new ArrayList<>();
+        this.loginValidator = loginValidator;
     }
 
     User find(String login) throws LoginException {
@@ -20,20 +25,23 @@ class UserService {
     }
 
     void add(String login, String name, String surname) throws LoginException {
-        for (User user:users) {
-            if(user.getLogin().getLogin().equals(login)){
-                throw new LoginException("Login already exists");
+        if(loginValidator.validate(login)) {
+            for (User user : users) {
+                if (user.getLogin().getLogin().equals(login)) {
+                    throw new LoginException("Login already exists");
+                }
             }
+            User user = new User(new Login(login), new Name(name), new Surname(surname));
+            users.add(user);
         }
-        User user = new User(new Login(login),new Name(name), new Surname(surname));
-        users.add(user);
+        else throw new LoginException("Invalid login!");
     }
 
     ArrayList<User> getUsers() {
         return users;
     }
 
-    public void update(String login, Name name) throws LoginException {
+    void update(String login, Name name) throws LoginException {
 
         find(login).setName(name);
     }
@@ -42,6 +50,11 @@ class UserService {
         find(login).setSurname(surname);
     }
 
-    public void delete(String login) {
+    void delete(String login) {
+        for (int i=0;i<users.size();i++){
+            if(users.get(i).getLogin().getLogin().equals(login)){
+                users.remove(i);
+            }
+        }
     }
 }

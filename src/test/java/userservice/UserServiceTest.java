@@ -5,19 +5,24 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 
 public class UserServiceTest {
 
     private UserService userService;
+    private LoginValidator loginValidator;
 
     @Before
 
 
     public void init(){
-         userService = new UserService();
+
+
+        loginValidator = Mockito.mock(LoginValidator.class);
+        userService = new UserService(loginValidator);
+        //assume that login is valid in tests of methods
+        makeLoginValid();
     }
 
 
@@ -89,6 +94,7 @@ public class UserServiceTest {
         userService.delete("Login1");
         try {
             userService.find("Login1");
+            Assert.fail("Exception wasnt found!");
         }catch (LoginException e){
             Assert.assertEquals("User cannot be found",e.getMessage());
         }
@@ -97,11 +103,36 @@ public class UserServiceTest {
     }
 
     @Test
-    public void checkIfValidatorMethodWorks() {
-        LoginValidator loginValidator = Mockito.mock(LoginValidator.class);
+    public void checkIfValidatorMethodWorksWithGoodLogin() {
 
-        BDDMockito.given(loginValidator.validate(ArgumentMatchers.anyString())).willReturn(true);
+        makeLoginValid();
 
         Assert.assertTrue(loginValidator.validate("CorrectLogin"));
+    }
+
+    private void makeLoginValid() {
+        BDDMockito.given(loginValidator.validate(ArgumentMatchers.anyString())).willReturn(true);
+    }
+
+    @Test
+    public void checkIfValidatorMethodWorksWithBadLogin() {
+
+        makeLoginInvalid();
+
+        Assert.assertFalse(loginValidator.validate("CorrectLogin"));
+    }
+
+    @Test
+    public void testIfInvalidLoginThrowsException() {
+        makeLoginInvalid();
+        try {
+            userService.add("InvalidLogin","Name","Surname");
+        } catch (LoginException e) {
+            Assert.assertEquals("Invalid login!",e.getMessage());
+        }
+    }
+
+    private void makeLoginInvalid() {
+        BDDMockito.given(loginValidator.validate(ArgumentMatchers.anyString())).willReturn(false);
     }
 }

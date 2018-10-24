@@ -19,7 +19,12 @@ class UserService {
         return null;
     }
 
-    void add(String login, String name, String surname) {
+    void add(String login, String name, String surname) throws LoginAlreadyExistsException {
+        for (User user:users) {
+            if(user.getLogin().getLogin().equals(login)){
+                throw new LoginAlreadyExistsException();
+            }
+        }
         User user = new User(new Login(login),new Name(name), new Surname(surname));
         users.add(user);
     }

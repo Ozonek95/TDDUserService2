@@ -23,7 +23,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testIfAddMethodAddsUsers() {
+    public void testIfAddMethodAddsUsers() throws LoginAlreadyExistsException {
 
         userService.add("Name","Surname","Login");
         Assert.assertFalse(userService.getUsers().isEmpty());
@@ -31,7 +31,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testIfUpdateMethodUpdatesUserSurname() {
+    public void testIfUpdateMethodUpdatesUserSurname() throws LoginAlreadyExistsException {
 
 
         userService.add("Login1","Name","Surname");
@@ -42,7 +42,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testIfUpdateMethodUpdatesUserName() {
+    public void testIfUpdateMethodUpdatesUserName() throws LoginAlreadyExistsException {
 
 
         userService.add("Login1","Name","Surname");
@@ -53,7 +53,7 @@ public class UserServiceTest {
     }
 
     @Test(expected = LoginAlreadyExistsException.class)
-    public void testIfAddMethodThrowsExceptionWhenUserWithLoginAlreadyExists() {
+    public void testIfAddMethodThrowsExceptionWhenUserWithLoginAlreadyExists() throws LoginAlreadyExistsException {
 
         userService.add("Login1","Marek","Stachurski");
         userService.add("Login1","Jacek","Stachurski");
